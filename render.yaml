@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: phishing-ai-detector
+    env: docker
+    plan: free
+    autoDeploy: true
