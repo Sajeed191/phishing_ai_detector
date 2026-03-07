@@ -1,24 +1,32 @@
-import re
 from urllib.parse import urlparse
 
 def extract_features(url):
 
     parsed = urlparse(url)
 
-    features = {}
+    features = []
 
-    features['url_length'] = len(url)
-    features['domain_length'] = len(parsed.netloc)
-    features['has_https'] = 1 if parsed.scheme == "https" else 0
-    features['count_dots'] = url.count(".")
-    features['count_hyphen'] = url.count("-")
-    features['count_at'] = url.count("@")
-    features['count_question'] = url.count("?")
-    features['count_percent'] = url.count("%")
-    features['count_equal'] = url.count("=")
+    features.append(len(url))
+    features.append(len(parsed.netloc))
+    features.append(url.count("."))
+    features.append(url.count("-"))
+    features.append(url.count("@"))
+    features.append(url.count("?"))
+    features.append(url.count("%"))
+    features.append(url.count("="))
 
-    suspicious_words = ["login","secure","update","bank","verify","account"]
+    if "https" in url:
+        features.append(1)
+    else:
+        features.append(0)
 
-    features['suspicious_words'] = sum(word in url.lower() for word in suspicious_words)
+    suspicious_words = ["login","verify","bank","secure","update","account"]
 
-    return list(features.values())
+    count = 0
+    for word in suspicious_words:
+        if word in url.lower():
+            count += 1
+
+    features.append(count)
+
+    return features
