@@ -1,3 +1,8 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
@@ -21,5 +26,6 @@ model = RandomForestClassifier(n_estimators=200)
 model.fit(X_train, y_train)
 
 joblib.dump(model, "phishing_model.pkl")
+
 
 print("Model trained and saved!")
